@@ -1,25 +1,167 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.8.34525.116
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab3CSharp", "Lab3CSharp\Lab3CSharp.csproj", "{8D734F09-D0AB-470F-BF78-F30CCEA1A9D7}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8D734F09-D0AB-470F-BF78-F30CCEA1A9D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D734F09-D0AB-470F-BF78-F30CCEA1A9D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D734F09-D0AB-470F-BF78-F30CCEA1A9D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D734F09-D0AB-470F-BF78-F30CCEA1A9D7}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {1B071093-F1F0-4ACA-ABF6-461944A9E1ED}
-	EndGlobalSection
-EndGlobal
+Завдданя 1
+using System;
+
+class DRomb
+{
+    // Поля класу
+    protected int d1; // Діагональ 1
+    protected int d2; // Діагональ 2
+    private readonly int color; // Колір ромба (readonly поле)
+
+    // Властивості для доступу до довжин діагоналей (доступні для читання і запису)
+    public int D1
+    {
+        get { return d1; }
+        set { d1 = value; }
+    }
+
+    public int D2
+    {
+        get { return d2; }
+        set { d2 = value; }
+    }
+
+    // Властивість для доступу до коліру (доступна тільки для читання)
+    public int Color
+    {
+        get { return color; }
+    }
+
+    // Конструктор класу
+    public DRomb(int diagonal1, int diagonal2, int color)
+    {
+        d1 = diagonal1;
+        d2 = diagonal2;
+        this.color = color;
+    }
+
+    // Методи класу
+    public void DisplayDimensions()
+    {
+        Console.WriteLine($"Діагональ 1: {d1}");
+        Console.WriteLine($"Діагональ 2: {d2}");
+    }
+
+    public int CalculatePerimeter()
+    {
+        return 2 * (d1 + d2);
+    }
+
+    public double CalculateArea()
+    {
+        return (d1 * d2) / 2.0; // Формула для площі ромба
+    }
+
+    public bool IsSquare()
+    {
+        return d1 == d2; // Перевірка чи ромб є квадратом
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Приклад використання класу DRomb
+        DRomb romb1 = new DRomb(5, 5, 1); // Створення ромба з діагоналями 5 і 5 та колір 1
+        DRomb romb2 = new DRomb(7, 9, 2); // Створення ромба з діагоналями 7 і 9 та колір 2
+
+        Console.WriteLine("Інформація про ромб 1:");
+        romb1.DisplayDimensions();
+        Console.WriteLine($"Периметр: {romb1.CalculatePerimeter()}");
+        Console.WriteLine($"Площа: {romb1.CalculateArea()}");
+        Console.WriteLine($"Чи є квадратом: {romb1.IsSquare()}");
+
+        Console.WriteLine();
+
+        Console.WriteLine("Інформація про ромб 2:");
+        romb2.DisplayDimensions();
+        Console.WriteLine($"Периметр: {romb2.CalculatePerimeter()}");
+        Console.WriteLine($"Площа: {romb2.CalculateArea()}");
+        Console.WriteLine($"Чи є квадратом: {romb2.IsSquare()}");
+    }
+}
+Завдання 2
+using System;
+using System.Linq;
+
+class Person
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+
+    public virtual void Show()
+    {
+        Console.WriteLine($"Name: {Name}, Age: {Age}");
+    }
+}
+
+class Student : Person
+{
+    public string University { get; set; }
+    public int Year { get; set; }
+
+    public override void Show()
+    {
+        base.Show();
+        Console.WriteLine($"University: {University}, Year: {Year}");
+    }
+}
+
+class Teacher : Person
+{
+    public string Subject { get; set; }
+    public string Degree { get; set; }
+
+    public override void Show()
+    {
+        base.Show();
+        Console.WriteLine($"Subject: {Subject}, Degree: {Degree}");
+    }
+}
+
+class Staff : Person
+{
+    public string Position { get; set; }
+    public int Experience { get; set; }
+
+    public override void Show()
+    {
+        base.Show();
+        Console.WriteLine($"Position: {Position}, Experience: {Experience}");
+    }
+}
+
+class DepartmentHead : Teacher
+{
+    public string Department { get; set; }
+
+    public override void Show()
+    {
+        base.Show();
+        Console.WriteLine($"Department: {Department}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Person[] people = new Person[4];
+
+        people[0] = new Student { Name = "John", Age = 20, University = "Harvard", Year = 3 };
+        people[1] = new Teacher { Name = "Jane", Age = 35, Subject = "Math", Degree = "PhD" };
+        people[2] = new Staff { Name = "Mike", Age = 25, Position = "Administrator", Experience = 5 };
+        people[3] = new DepartmentHead { Name = "Emily", Age = 40, Subject = "Chemistry", Degree = "MSc", Department = "Science" };
+
+        // Сортування масиву за іменем
+        Array.Sort(people, (x, y) => string.Compare(x.Name, y.Name));
+
+        // Виведення інформації про об'єкти
+        foreach (var person in people)
+        {
+            person.Show();
+            Console.WriteLine();
+        }
+    }
+}
